@@ -1,6 +1,23 @@
 import pytest
 from model import Question
 
+@pytest.fixture
+def question_with_choices():
+    """Fixture que fornece uma questão pré-configurada com 3 choices"""
+    question = Question(title="Questão Fixture", points=5)
+    question.add_choice("Opção A", False)
+    question.add_choice("Opção B", True)
+    question.add_choice("Opção C", False)
+    return question
+
+@pytest.fixture
+def question_with_multiple_correct_choices():
+    """Fixture com múltiplas choices corretas"""
+    question = Question(title="Questão Múltipla", points=10, max_selections=2)
+    question.add_choice("Certa 1", True)
+    question.add_choice("Certa 2", True)
+    question.add_choice("Errada", False)
+    return question
 
 def test_create_question():
     question = Question(title='q1')
@@ -106,3 +123,25 @@ def test_select_no_choices_returns_empty_list():
     
     assert result == []
     assert len(result) == 0
+
+def test_fixture_question_initial_state(question_with_choices):
+    """Testa o estado inicial da questão da fixture"""
+    assert len(question_with_choices.choices) == 3
+    assert question_with_choices.title == "Questão Fixture"
+    assert question_with_choices.points == 5
+
+def test_select_correct_choice_with_fixture(question_with_choices):
+    """Testa seleção da choice correta usando a fixture"""
+    correct_choice = next(c for c in question_with_choices.choices if c.is_correct)
+    selected = question_with_choices.select_choices([correct_choice.id])
+    assert selected == [correct_choice.id]
+
+def test_remove_choice_with_fixture(question_with_choices):
+    """Testa remoção de choice usando a fixture"""
+    initial_count = len(question_with_choices.choices)
+    choice_to_remove = question_with_choices.choices[0]
+    
+    question_with_choices.remove_choice_by_id(choice_to_remove.id)
+    
+    assert len(question_with_choices.choices) == initial_count - 1
+    assert choice_to_remove.id not in [c.id for c in question_with_choices.choices]
