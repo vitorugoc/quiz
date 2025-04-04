@@ -1,6 +1,6 @@
 [![tests](https://github.com/andrehora/quiz/actions/workflows/tests.yml/badge.svg)](https://github.com/andrehora/quiz/actions/workflows/tests.yml)
 
-# Quiz testing example
+# Quiz testing example - Vitor Hugo Coelho Cruz
 
 Neste exercício, iremos melhorar os testes de unidade de sistema de quiz.
 Você deve realizar os 3 commits descritos abaixo e submeter os 3 links dos commits via Moodle.
