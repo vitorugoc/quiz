@@ -81,4 +81,3 @@ class Question:
             return 1
         last_choice = self.choices[-1]
         return last_choice.id + 1
-        
